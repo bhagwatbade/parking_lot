@@ -1,0 +1,40 @@
+# Add script to:
+# * Install dependencies
+# * Build/Compile
+# * Run Test Suit to validate
+#
+# After this is run, bin/parking_lot
+# should Just Work.
+
+echo ""
+echo "*************************Install dependencies*************************"
+echo ""
+
+mkdir -p lib
+
+mvn dependency:get -DremoteRepositories=http://repo1.maven.org/maven2/ -DgroupId=junit -DartifactId=junit -Dversion=4.13 -Dtransitive=false -Ddest=lib/
+
+mvn dependency:get -DremoteRepositories=http://repo1.maven.org/maven2/ -DgroupId=org.hamcrest -DartifactId=hamcrest-all -Dversion=1.3 -Dtransitive=false -Ddest=lib/
+
+echo ""
+echo "*************************Dependencies Installed*************************"
+echo ""
+
+echo ""
+echo "*************************Compilation Start*************************"
+echo ""
+
+mkdir -p target
+
+javac -d target -cp lib/hamcrest-all-1.3.jar:lib/junit-4.13.jar src/test/java/service/ParkingServiceTest.java src/main/java/config/ParkingLot.java src/main/java/dto/ParkingDTO.java src/main/java/dto/RootDTO.java src/main/java/entity/Car.java src/main/java/entity/Lot.java src/main/java/entity/RootEntity.java src/main/java/idto/IParkingDTO.java src/main/java/idto/IRootDTO.java src/main/java/ientity/ICar.java src/main/java/ientity/ILot.java src/main/java/ientity/IRootEntity.java src/main/java/iservice/IParkingSerive.java src/main/java/iservice/IRootService.java src/main/java/service/ParkingService.java src/main/java/service/RootService.java
+
+echo ""
+echo "**************************Compilation End**************************"
+echo ""
+
+echo "***********************Unit testing Start*************************"
+
+java -cp target:lib/hamcrest-all-1.3.jar:lib/junit-4.13.jar org.junit.runner.JUnitCore test.java.service.ParkingServiceTest
+
+echo "************************Unit testing End**************************"
+echo ""
